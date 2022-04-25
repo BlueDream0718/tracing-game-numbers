@@ -547,9 +547,14 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                                             markRefList[repeatStep].current.setUrl('SB_04_Progress bar/SB_04_progress bar_03.svg')
 
-                                            if (repeatStep < 2 || letterNum != 19)
-                                                audioList.audioTing.play();
+                                            if (repeatStep < 2) {
+                                                if (letterNum != 19)
+                                                    audioList.audioTing.play();
+                                                else
+                                                    audioList.audioSparkle.play()
+                                            }
                                             else
+
                                                 audioList.audioSparkle.play()
 
                                             setTimeout(() => {
