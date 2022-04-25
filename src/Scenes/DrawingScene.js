@@ -84,6 +84,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
     const animationRef = useRef();
     const playerRef = useRef();
     const markParentRef = useRef();
+    const countFlowerRef = useRef()
 
     const subObjectsRef = useRef();
     const whiteHighRef = useRef()
@@ -576,6 +577,12 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                                             if (currentLetterNum < 10)
                                                 showingImg.current.style.transform = 'scale(1.1)'
+                                            else {
+                                                countFlowerRef.current.setStyle({
+                                                    transition: '0.5s',
+                                                    transform: 'scale(1.1)',
+                                                })
+                                            }
 
                                             setTimeout(() => {
                                                 let waitTime = wordList[repeatStep].duration * 1000
@@ -590,10 +597,15 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                 else
                                                     wordList[repeatStep].play();
 
-                                                console.log(waitTime, '::waitTime')
+
                                                 setTimeout(() => {
                                                     if (currentLetterNum < 10)
                                                         showingImg.current.style.transform = 'scale(1)'
+                                                    else
+                                                        countFlowerRef.current.setStyle({
+                                                            transition: '0.5s',
+                                                            transform: 'scale(1.1)',
+                                                        })
                                                     if (repeatStep < 2 && currentLetterNum < 10) {
 
                                                         if (currentLetterNum < 10)
@@ -1047,6 +1059,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                     </div>
                     {currentLetterNum > 9 &&
                         <BaseImage
+                            ref={countFlowerRef}
                             scale={showingLayoutList[letterNum].s}
                             posInfo={{
                                 b: showingLayoutList[letterNum].b,
