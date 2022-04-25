@@ -933,7 +933,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                         ref={showingImg}
                         className='hideObject'
                         style={{
-                            position: 'fixed', width: _geo.width * 0.25 + 'px',
+                            position: 'fixed', width: _geo.width * 0.22 + 'px',
                             height: _geo.height * 0.25 + 'px',
                             right: _geo.left + _geo.width * 0.06 + 'px',
                             bottom: _geo.top + _geo.height * 0.11 + 'px',
@@ -947,7 +947,6 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                 r: showingLayoutList[letterNum][currentImgNumOriginal].r
                             }}
                             url={"SB_03_NT_Prop-Interactive/" + showingLayoutList[letterNum][currentImgNumOriginal].wPath + ".svg"}
-
                         />
 
                         <BaseImage

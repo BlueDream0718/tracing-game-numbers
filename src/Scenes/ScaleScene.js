@@ -53,7 +53,7 @@ const propList = [
 ]
 
 const audioPathList = [
-    '03', '10', '14', '22', '27', '32', '37', '42', '49', '52'
+    '03', '10', '14', '22', '27', '32', '39', '42', '49', '52'
 ]
 
 
@@ -84,7 +84,7 @@ function returnOption(index) {
     };
 }
 
-
+let waitingTime = 0
 
 const characterPosList = [
     { s: 1, l: 0, t: 0 },
@@ -236,6 +236,10 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
         setAniStop(false)
         audioList.bodyAudio3.play();
+        waitingTime = 7500
+
+        if (audioList.bodyAudio3.duration * 1000 > waitingTime)
+            waitingTime = audioList.bodyAudio3.duration * 1000
         timerList[7] = setTimeout(() => {
             scaleFunc()
         }, 1000);
@@ -247,14 +251,14 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
     }
 
     const scaleFunc = () => {
-        parentObject.current.style.transition = '4s'
+        parentObject.current.style.transition = '5s'
         parentObject.current.style.transform =
             'translate(' + transformlist[currentLetterNum].x +
             '%,' + transformlist[currentLetterNum].y +
             '%) scale(' + transformlist[currentLetterNum].s + ')'
         timerList[9] = setTimeout(() => {
             nextFunc()
-        }, 7500);
+        }, waitingTime);
     }
 
 
