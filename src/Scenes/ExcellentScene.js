@@ -9,18 +9,14 @@ export default function Scene18({ nextFunc, _geo, audioList, _baseGeo }) {
 
     useEffect(() => {
 
-        // audioList.bodyAudio2.src = returnSoundPath('SB_04_Audio_21')
         setRepeatAudio(audioList.replayAudio)
 
         timerList[0] = setTimeout(() => {
             audioList.audioSuccess.play();
             timerList[3] = setTimeout(() => {
-                // audioList.bodyAudio2.play();
                 audioList.audioClap.play();
                 audioList.audioYeah.play();
             }, 1000);
-
-
 
             timerList[1] = setTimeout(() => {
                 audioList.replayAudio.play();
@@ -33,16 +29,13 @@ export default function Scene18({ nextFunc, _geo, audioList, _baseGeo }) {
             }, 6000);
         }, 1500);
 
-
-
         return () => {
             stopRepeatAudio();
 
-            timerList.map(timer => {
-                clearTimeout(timer)
-            })
+            timerList.map(timer => clearTimeout(timer))
 
             audioList.backAudio.volume = 0.15;
+            
             audioList.replayAudio.pause();
             audioList.replayAudio.currentTime = 0
 
