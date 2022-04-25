@@ -73,7 +73,6 @@ new loadAnimation('character/p3.json').then(result => {
 new loadAnimation('character/bird.json').then(result => {
     animationData[4] = result;
 }, () => { });
-
 function returnOption(index) {
     return {
         loop: true,
@@ -138,8 +137,6 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
     const [aniNum, setAniNum] = useState(0)
 
     useEffect(() => {
-
-
 
         moveFunc(0, movePosList[currentLetterNum].fx)
 
@@ -303,22 +300,18 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
                     style={{
                         position: 'fixed',
                         width: _baseGeo.width * 0.15,
-                        height: _baseGeo.width * 0.2,
                         left: _baseGeo.left + _baseGeo.width * 1,
                         top: _baseGeo.bottom + _baseGeo.height * 0.55,
                         pointerEvents: 'none',
-                        overflow: 'visible'
                     }}
                 >
-                    <Player
-                        keepLastFrame={true}
+                    <Lottie
+                        options={returnOption(4)}
+                        mouseDown={false}
+                        isClickToPauseDisabled={true}
                         autoplay
                         loop
-                        className='movingTopDown'
-                        src={prePathUrl() + 'lottieFiles/character/bird.json'}
-
-                    >
-                    </Player>
+                    />
                 </div>
             }
 
@@ -354,7 +347,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
                     {
                         [0, 1, 2, 3].map((value, index) =>
                             <div
-                                className={index == aniNum ? 'showObject' : 'hideObject'}
+                                className={value === aniNum ? 'showObject' : 'hideObject'}
                                 style={{
                                     position: 'absolute',
                                     width: characterPosList[index].s * 100 + '%',
@@ -365,10 +358,10 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
                                 }}
                             >
                                 <Lottie
-                                    options={returnOption(index)}
+                                    options={returnOption(value)}
                                     mouseDown={false}
                                     isClickToPauseDisabled={true}
-                                    playSegments={index == 0 ? playerSegment : {
+                                    playSegments={value == 0 ? playerSegment : {
                                         segments: [0, 300],
                                         forceFlag: false
                                     }}
