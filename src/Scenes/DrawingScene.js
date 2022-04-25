@@ -547,7 +547,11 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                 subObject.visible = false;
 
                                             markRefList[repeatStep].current.setUrl('SB_04_Progress bar/SB_04_progress bar_03.svg')
-                                            audioList.audioTing.play();
+
+                                            if (repeatStep < 2)
+                                                audioList.audioTing.play();
+                                            else
+                                                audioList.audioSparkle.play()
 
                                             setTimeout(() => {
                                                 let showIndex = 0;
@@ -576,8 +580,8 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                     audioList.audioExcellent.play()
                                                     setTimeout(() => {
                                                         wordList[repeatStep].play();
-                                                    }, 1000);
-                                                    waitTime += 1000
+                                                    }, 1500);
+                                                    waitTime += 1500
                                                 }
                                                 else
                                                     wordList[repeatStep].play();
@@ -689,7 +693,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                     }
 
                                                 }, waitTime + 3000);
-                                            }, 1000);
+                                            }, 1500);
                                         }
                                         else {
 
@@ -1036,6 +1040,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                             background: '#999999'
                         }}
                     >
+
                     </div>
                     {currentLetterNum > 9 &&
                         <BaseImage
@@ -1129,28 +1134,41 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                             url={"SB_03_NT_Text-Interactive/" + titleList[letterNum].path + ".svg"}
                         />
                     }
-                </div>
-                <div
-                    ref={sparkBaseRef}
-                    style={{
-                        position: 'absolute', width: _geo.width * 0.2 + 'px',
-                        height: _geo.height * 0.15 + 'px',
-                        left: _geo.width * 0.47 + 'px',
-                        bottom: _geo.height * 0.15 + 'px',
-                        pointerEvents: 'none',
-                    }}>
-                    {[0, 1, 2].map(value =>
-                        <BaseImage
-                            ref={sparkRefList[value]}
-                            className='hideObject'
-                            posInfo={{
-                                b: 1,
-                                l: 0.0
-                            }}
-                            style={{ transform: 'scale(' + [0.3, 1.7, 2.4][value] + ')' }}
-                            url={"Magic/sb_52_magic_wand_sparkels_" + (value + 1) + ".svg"}
-                        />
-                    )}
+
+                    <div
+                        style={{
+                            position: 'fixed', width: _geo.width,
+                            height: _geo.height,
+                            left: _geo.left
+                            , top: _geo.top,
+                            pointerEvents: 'none'
+                        }}
+                    >
+                        <div
+                            ref={sparkBaseRef}
+                            style={{
+                                position: 'absolute',
+                                width: '20%',
+                                height: '15%',
+                                left: '40%',
+                                bottom: '15%',
+                                pointerEvents: 'none',
+                            }}>
+                            {[0, 1, 2].map(value =>
+                                <BaseImage
+                                    ref={sparkRefList[value]}
+                                    className='hideObject'
+                                    posInfo={{
+                                        b: 1,
+                                        l: 0.0
+                                    }}
+                                    style={{ transform: 'scale(' + [0.3, 1.7, 2.4][value] + ')' }}
+                                    url={"Magic/sb_52_magic_wand_sparkels_" + (value + 1) + ".svg"}
+                                />
+                            )}
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

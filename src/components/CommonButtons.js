@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../stylesheets/styles.css";
 import { prePathUrl } from "./CommonFunctions";
 
@@ -65,6 +65,7 @@ const FullScreenBtn = React.forwardRef((prop, ref) => {
 
 const MusicButton = React.forwardRef((prop, ref) => {
 
+    const currentRef = useRef()
     const [_isBackSoundPlaying, _setBackgroundPlaying] = useState(true);
     function controlBacksound() {
         if (_isBackSoundPlaying) {
@@ -73,42 +74,50 @@ const MusicButton = React.forwardRef((prop, ref) => {
         }
         else {
             _setBackgroundPlaying(true);
-            prop.backAudio.play().catch(error=>{});
+            prop.backAudio.play().catch(error => { });
         }
     }
 
+    React.useImperativeHandle(ref, () => ({
+        fomartSound: () => {
+            setTimeout(() => {
+                currentRef.current.className = 'introText'
+                prop.backAudio.currentTime = 0;
+                prop.backAudio.play().catch(error => { });
+                _setBackgroundPlaying(true);
+
+            }, 500);
+            setTimeout(() => {
+                currentRef.current.className = 'commonButton'
+            }, 2000);
+        },
+        setClass: (prop) => {
+            currentRef.current.className = prop
+        }
+    }
+    ))
+
+
     return (
         <div
-            ref={ref}
-            className='playBtn'
+            ref={currentRef}
+            className='hideObject'
+            onClick={controlBacksound}
             style={{
-                position: "fixed", position: "fixed", width: '5%',
-                left: '2%',
-                top: "47.5%",
+                position: "fixed", width: prop._geo.width * 0.055 + "px",
+                height: prop._geo.width * 0.055 + "px",
+                left: 2 + "%",
+                top: "46%",
                 cursor: 'pointer',
-                display: 'none'
             }}>
-            {!_isBackSoundPlaying &&
-                <img
-                    className="aniObject"
-                    onClick={controlBacksound}
-                    width={"100%"}
-                    draggable={false}
-                    src={prePathUrl() + "images/Buttons/Audio_mute.svg"}
-                />
-            }
-            {_isBackSoundPlaying &&
-                <img
-                    className="aniObject"
-                    onClick={controlBacksound}
-                    width={"100%"}
-                    draggable={false}
-                    src={prePathUrl() + "images/Buttons/Audio_unmute.svg"}
-                />
-            }
+            <img draggable={false}
+                width={"100%"}
+                src={prePathUrl() + "images/Buttons/" + (_isBackSoundPlaying ? "Audio_unmute" : "Audio_mute") + ".svg"}
+            />
         </div>
     )
 });
+
 
 
 
@@ -127,8 +136,8 @@ const LoadingCircleBar = React.forwardRef((prop, ref) => {
             }}
         >
             <img
-                style = {{ position: 'absolute', width: '10%', top: '40%', left: '45%' }}
-                src = {prePathUrl() + "images/Buttons/loadingBar.gif"}
+                style={{ position: 'absolute', width: '10%', top: '40%', left: '45%' }}
+                src={prePathUrl() + "images/Buttons/loadingBar.gif"}
             />
         </div>
     )

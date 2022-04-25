@@ -231,7 +231,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         audioList.bodyAudio3.play();
         setTimeout(() => {
             scaleFunc()
-        }, 2000);
+        }, 1000);
 
         setTimeout(() => {
             setAniStop(true)

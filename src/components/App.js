@@ -2,15 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import TitleScene from "../Scenes/TitleScene";
-import IntroScene from "../Scenes/IntroScene";
 import ScaleScene from "../Scenes/ScaleScene";
 import DrawingScene from "../Scenes/DrawingScene";
 import ExcellentScene from "../Scenes/ExcellentScene";
+import { MusicButton } from './CommonButtons';
 
 import "../stylesheets/styles.css";
 import "../stylesheets/button.css";
 
-import { prePathUrl } from "./CommonFunctions";
 
 const Switch = props => {
   const { test, children } = props
@@ -93,6 +92,10 @@ const App = ({ geo, _setBackground, __controlBacksound, _startTransition,
       else
         setFomart(2);
 
+      setTimeout(() => {
+        musicRef.current.fomartSound()
+      }, 500);
+
       _hideIntroTitle()
     },
     showMusicBtn: () => {
@@ -112,7 +115,7 @@ const App = ({ geo, _setBackground, __controlBacksound, _startTransition,
   function goHome() {
     currentLetterNum = 0;
     backgroundImageIndex = 0;
-    musicRef.current.className = 'hideObject'
+    musicRef.current.setClass('hideObject')
 
     _audioList.backAudio.pause();
     _audioList.backAudio.currentTime = 0;
@@ -136,24 +139,8 @@ const App = ({ geo, _setBackground, __controlBacksound, _startTransition,
         </Switch>
       </div>
 
-      <div
-        ref={musicRef}
-        className='hideObject'
-        style={{
-          position: "fixed", width: '5%',
-          left: '2%',
-          top: "47.5%",
-          cursor: 'pointer',
-        }}
-        onClick={controlBacksound}
-      >
-        <img
-
-          width={"100%"}
-          draggable={false}
-          src={prePathUrl() + "images/Buttons/" + (!_isBackSoundPlaying ? "Audio_mute" : "Audio_unmute") + ".svg"}
-        />
-      </div>
+      <MusicButton ref={musicRef} _geo={__geo}
+        backAudio={_audioList.backAudio} className='hideObject' />
     </div >
   );
 }

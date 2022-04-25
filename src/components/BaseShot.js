@@ -17,9 +17,9 @@ var oldBackgroundImage = 'SB_04_intro_BG_01';
 
 let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
-backAudio.volume = 1;
+backAudio.volume = 0.15;
 
-let currentSceneNumber = 1;
+let currentSceneNumber = 0;
 
 let bodyAudio1 = loadSound(audioPrifix + '01')
 let bodyAudio2 = loadSound(audioPrifix + '02')
@@ -39,12 +39,11 @@ let audioSuccess = loadSound('success', true)
 let audioClick = loadSound('click', true)
 let audioTing = loadSound('ting', true)
 let audioExcellent = loadSound('excellent', true)
+let audioSparkle = loadSound('spakle', true)
 
-console.log(audioExcellent)
 
 let replayAudio = new loadSound('replay', true);
 let audioPick = new loadSound('pick', true)
-
 
 audioPick.loop = true;
 
@@ -55,6 +54,7 @@ audioWoo.volume = 0.5
 audioClick.volume = 0.0
 audioSuccess.volume = 0.12
 audioPick.volume = 0.8
+audioSparkle.volume = 0.3
 
 let audioList = {
     backAudio, bodyAudio1, bodyAudio2, bodyAudio3,
@@ -62,12 +62,10 @@ let audioList = {
     audioYeah, audioWoo, audioSuccess,
     audioBuzz, audioClap,
     audioClick, audioTing, replayAudio,
-    audioPick, audioExcellent
+    audioPick, audioExcellent, audioSparkle
 }
 
 var isOff = false;
-
-
 var _isBackSoundPlaying = true;
 let backgroundSize = { width: 0, height: 0, left: 0, bottom: 0 }
 
@@ -148,7 +146,7 @@ export default function BaseShot() {
         if (!isGameStarted)
             initialAudio(audioList)
         isGameStarted = true;
-        playBackSound();
+        // playBackSound();
     }
 
     function showIntroTitle() {
