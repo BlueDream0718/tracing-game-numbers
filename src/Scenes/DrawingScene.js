@@ -220,8 +220,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                 playerRef.current.play();
                 audioList.bodyAudio1.src = returnAudioPath(explainVoices[1])
             }, audioList.bodyAudio1.duration * 1000 + 500);
-
-        }, 1500);
+        }, 2000);
     }
 
 
@@ -548,7 +547,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                                             markRefList[repeatStep].current.setUrl('SB_04_Progress bar/SB_04_progress bar_03.svg')
 
-                                            if (repeatStep < 2)
+                                            if (repeatStep < 2 || letterNum != 19)
                                                 audioList.audioTing.play();
                                             else
                                                 audioList.audioSparkle.play()
@@ -937,7 +936,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                             position: 'fixed', width: _geo.width * 0.25 + 'px',
                             height: _geo.height * 0.25 + 'px',
                             right: _geo.left + _geo.width * 0.06 + 'px',
-                            bottom: _geo.top + _geo.height * 0.13 + 'px',
+                            bottom: _geo.top + _geo.height * 0.11 + 'px',
                             pointerEvents: 'none',
                             transform: 'scale(1)'
                         }}>
@@ -954,7 +953,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                         <BaseImage
                             style={{
                                 transform: 'scale(' + (showingLayoutList[letterNum][currentImgNumOriginal].ts
-                                    ? showingLayoutList[letterNum][currentImgNumOriginal].ts : 1) * 1.6 + ')'
+                                    ? showingLayoutList[letterNum][currentImgNumOriginal].ts : 1) * 1.4 + ')'
                             }}
                             posInfo={{ r: 0.0, b: showingLayoutList[letterNum][currentImgNumOriginal].tb ? showingLayoutList[letterNum][currentImgNumOriginal].tb : 0.0 }}
 
@@ -1141,7 +1140,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                             height: _geo.height,
                             left: _geo.left
                             , top: _geo.top,
-                            pointerEvents:'none'
+                            pointerEvents: 'none'
                         }}
                     >
                         <div

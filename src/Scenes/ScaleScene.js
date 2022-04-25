@@ -53,7 +53,7 @@ const propList = [
 ]
 
 const audioPathList = [
-    '03', '10', '14', '22', '27', '32', '37', '42', '47', '52'
+    '03', '10', '14', '22', '27', '32', '37', '42', '49', '52'
 ]
 
 
@@ -147,11 +147,9 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
             parentObject.current.style.transition = '0s'
         }, 1000);
 
-        audioList.bodyAudio1.src = returnAudioPath()
-
         timerList[1] = setTimeout(() => {
             appearFunc()
-        }, 1500);
+        }, 1800);
 
 
         return () => {
@@ -188,8 +186,6 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
     }
     const introFunc = () => {
         let duration = (audioList.bodyAudio1.duration + audioList.bodyAudio2.duration) * 1000
-
-
 
         audioList.bodyAudio1.play();
         timerList[3] = setTimeout(() => {

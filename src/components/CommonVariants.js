@@ -689,7 +689,7 @@ const firstPosList = [
         { x: 486, y: 156 },
         { x: 604, y: 153, letter_start: true },
         { x: 559, y: 201 },
-        { x: 557, y: 201 },
+        { x: 557, y: 201, letter_start: true },
     ],
     [       //16
         { x: 491, y: 155 },
