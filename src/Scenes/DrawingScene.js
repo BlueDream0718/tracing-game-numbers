@@ -1141,7 +1141,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                             height: _geo.height,
                             left: _geo.left
                             , top: _geo.top,
-                            pointerEvents: 'none'
+                            pointerEvents:'none'
                         }}
                     >
                         <div
