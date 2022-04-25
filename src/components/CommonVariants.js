@@ -5,7 +5,7 @@ const maskInfoList = [
     { size: '41% 71%', position: '47.4% 55%' },
     { size: '41% 71%', position: '49.6% 55%' },
     { size: '40% 73%', position: '49.2% 55%' },
-    { size: '40.5% 72%', position: '46.3% 55%' },
+    { size: '40% 72.9%', position: '46.3% 55.5%' },
     { size: '40% 71%', position: '49.3% 55%' },
     { size: '40% 71%', position: '49.3% 55%' },
     { size: '40% 71%', position: '49.3% 55%' },

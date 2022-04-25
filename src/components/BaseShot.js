@@ -21,7 +21,7 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = 0.15;
 
-let currentSceneNumber = 3;
+let currentSceneNumber = 0;
 
 let bodyAudio1 = loadSound(audioPrifix + '01')
 let bodyAudio2 = loadSound(audioPrifix + '02')
@@ -248,11 +248,24 @@ export default function BaseShot() {
             setBackLoaded(false)
             oldBackgroundImage = imgUrl;
             myImage1.current.src = prePathUrl() + "images/SB_03_NT_BG/" + imgUrl + ".svg";
+
+            if (imgUrl == 'intro') {
+                myImage1.current.style.bottom = 0 + 'px'
+            }
+            else
+                myImage1.current.style.bottom = backgroundSize.bottom + 'px'
+
             if (optionNum != 1)  // transition scenes
                 myImage1.current.className = 'background-move'
 
             setTimeout(() => {
                 myImage.current.src = prePathUrl() + "images/SB_03_NT_BG/" + imgUrl + ".svg";
+                if (imgUrl == 'intro') {
+                    myImage1.current.style.bottom = 0 + 'px'
+                }
+                else
+                    myImage1.current.style.bottom = backgroundSize.bottom + 'px'
+
                 if (optionNum != 1)  // transition scenes
                     myImage1.current.className = ''
             }, 1500);
@@ -341,7 +354,7 @@ export default function BaseShot() {
             <div style={{
                 position: "fixed", width: backgroundSize.width + "px"
                 , height: backgroundSize.height + "px", left: backgroundSize.left + "px",
-                bottom: backgroundSize.bottom + "px",
+                bottom: 0 + "px",
                 pointerEvents: 'none',
                 userSelect: 'none'
             }} >
@@ -354,7 +367,7 @@ export default function BaseShot() {
 
                 position: "fixed", width: backgroundSize.width + "px"
                 , height: backgroundSize.height + "px", left: backgroundSize.left + "px",
-                bottom: backgroundSize.bottom + "px",
+                bottom: 0 + "px",
                 pointerEvents: 'none',
                 userSelect: 'none'
             }} >
@@ -402,8 +415,8 @@ export default function BaseShot() {
                 style={{
                     position: "fixed", width: geometry.width * 0.1 + "px",
                     height: geometry.width * 0.1 + "px",
-                    right: geometry.width * 0.12 + geometry.left + "px"
-                    , top: geometry.height * 0.7 + geometry.top + "px"
+                    right: geometry.width * 0.46 + geometry.left + "px"
+                    , top: geometry.height * 0.8 + geometry.top + "px"
                     , cursor: "pointer",
                     userSelect: 'none',
                 }}>

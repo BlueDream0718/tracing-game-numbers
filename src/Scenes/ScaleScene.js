@@ -120,6 +120,8 @@ const movePosList = [
 ]
 
 
+let timerList = []
+
 export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList, _geo
 }) {
     const parentObject = useRef()
@@ -140,14 +142,14 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
         moveFunc(0, movePosList[currentLetterNum].fx)
 
-        setTimeout(() => {
+        timerList[0] = setTimeout(() => {
             parentObject.current.style.transform = 'translate(0%,0%) scale(1)'
-            parentObject.current.style.transition = '4s'
+            parentObject.current.style.transition = '0s'
         }, 1000);
 
         audioList.bodyAudio1.src = returnAudioPath()
 
-        setTimeout(() => {
+        timerList[1] = setTimeout(() => {
             appearFunc()
         }, 1500);
 
@@ -155,6 +157,15 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         return () => {
             audioList.audioPick.pause()
             audioList.audioPick.currentTime = 0
+
+            audioList.bodyAudio1.pause()
+            audioList.bodyAudio2.pause()
+            audioList.bodyAudio3.pause()
+
+            audioList.bodyAudio3.currentTime = 0
+            audioList.bodyAudio2.currentTime = 0
+
+            timerList.map(timer => clearTimeout(timer))
         }
 
     }, [])
@@ -171,7 +182,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum])
 
         moveFunc(movePosList[currentLetterNum].at, 0)
-        setTimeout(() => {
+        timerList[2] = setTimeout(() => {
             introFunc()
         }, movePosList[currentLetterNum].at * 1000);
     }
@@ -181,7 +192,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
 
         audioList.bodyAudio1.play();
-        setTimeout(() => {
+        timerList[3] = setTimeout(() => {
             setPlaySegment({
                 segments: [80, 125],
                 forceFlag: true
@@ -190,7 +201,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         }, audioList.bodyAudio1.duration * 1000);
 
         setAniStop(false)
-        setTimeout(() => {
+        timerList[4] = setTimeout(() => {
             setAniStop(true)
             setTimeout(() => {
 
@@ -213,12 +224,12 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         })
 
         moveFunc(movePosList[currentLetterNum].gt, movePosList[currentLetterNum].gx)
-        setTimeout(() => {
+        timerList[5] = setTimeout(() => {
             pointerFunc()
         }, movePosList[currentLetterNum].gt * 1000 - 500);
 
         if (currentLetterNum == 1) {
-            setTimeout(() => {
+            timerList[6] = setTimeout(() => {
                 birdRef.current.style.transition = '20s'
                 birdRef.current.style.transform = 'translateX(-500%)'
             }, 2000);
@@ -229,22 +240,23 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
         setAniStop(false)
         audioList.bodyAudio3.play();
-        setTimeout(() => {
+        timerList[7] = setTimeout(() => {
             scaleFunc()
         }, 1000);
 
-        setTimeout(() => {
+        timerList[8] = setTimeout(() => {
             setAniStop(true)
         }, audioList.bodyAudio3.duration * 1000);
 
     }
 
     const scaleFunc = () => {
+        parentObject.current.style.transition = '4s'
         parentObject.current.style.transform =
             'translate(' + transformlist[currentLetterNum].x +
             '%,' + transformlist[currentLetterNum].y +
             '%) scale(' + transformlist[currentLetterNum].s + ')'
-        setTimeout(() => {
+        timerList[9] = setTimeout(() => {
             nextFunc()
         }, 7500);
     }
@@ -252,126 +264,146 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
 
     return (
-        <div
-            className="aniObject"
-            ref={parentObject}
-            style={{
-                position: "fixed", width: _baseGeo.width + "px"
-                , height: _baseGeo.height + "px",
-                left: _baseGeo.left + 'px',
-                top: _baseGeo.top + 'px',
-            }}
-        >
+        <div>
             <div
+                className="aniObject"
+                ref={parentObject}
                 style={{
-                    position: "absolute", width: '100%'
-                    , height: '100%',
-                    left: '0%',
-                    top: '0%'
-                }} >
-                <img
-                    width={'100%'}
-                    style={{
-                        position: 'absolute',
-                        left: '0%',
-                        top: '0%',
-
-                    }}
-                    src={prePathUrl() + "images/SB_03_NT_BG/" + scaleImageList[currentLetterNum] + ".svg"}
-                />
-            </div>
-            {
-                currentLetterNum == 0 &&
-                trainRefList.map((value, index) =>
-                    <BaseImage
-                        ref={trainRefList[index]}
-                        className={index > 0 ? 'hideObject' : ''}
-                        url={'ani/0' + (index + 1) + '.svg'}
-                        scale={propList[0].s}
-                        style={propList[0].style ? propList[0].style : null}
-                        posInfo={{ l: propList[0].l, t: propList[0].t }}
-                    />
-                )
-            }
-            {
-                currentLetterNum == 1 &&
-                <div
-                    ref={birdRef}
-                    style={{
-                        position: 'fixed',
-                        width: _baseGeo.width * 0.15,
-                        left: _baseGeo.left + _baseGeo.width * 1,
-                        top: _baseGeo.bottom + _baseGeo.height * 0.55,
-                        pointerEvents: 'none',
-                    }}
-                >
-                    <Lottie
-                        options={returnOption(4)}
-                        mouseDown={false}
-                        isClickToPauseDisabled={true}
-                        autoplay
-                        loop
-                    />
-                </div>
-            }
-
-            {
-                currentLetterNum > 1 &&
-                <BaseImage
-                    url={'SB_03_NT_FG/' + propList[currentLetterNum].path + '.svg'}
-                    scale={propList[currentLetterNum].s}
-                    style={propList[currentLetterNum].style ? propList[currentLetterNum].style : null}
-                    posInfo={{ l: propList[currentLetterNum].l, t: propList[currentLetterNum].t }}
-                />
-            }
-
-
-            {/* character List */}
-
-            <div
-                className="movingTopDown"
-                style={{
-                    position: 'fixed',
-                    width: _geo.width * 0.3,
-                    height: _geo.width * 0.3,
-                    left: _geo.left + _geo.width * (0.0 + ballenInfoList[currentLetterNum].x),
-                    top: _geo.top + _geo.height * (-0.2 + ballenInfoList[currentLetterNum].y),
-                    pointerEvents: 'none',
+                    position: "fixed", width: _baseGeo.width + "px"
+                    , height: _baseGeo.height + "px",
+                    left: _baseGeo.left + 'px',
+                    top: _baseGeo.top + 'px',
                 }}
             >
                 <div
-                    ref={characterRef}
+                    style={{
+                        position: "absolute", width: '100%'
+                        , height: '100%',
+                        left: '0%',
+                        top: '0%'
+                    }} >
+                    <img
+                        width={'100%'}
+                        style={{
+                            position: 'absolute',
+                            left: '0%',
+                            top: '0%',
 
-                    style={{ position: 'absolute', width: '100%', height: '100%', left: '0%', top: '0%' }}
+                        }}
+                        src={prePathUrl() + "images/SB_03_NT_BG/" + scaleImageList[currentLetterNum] + ".svg"}
+                    />
+                </div>
+                {
+                    currentLetterNum == 0 &&
+                    trainRefList.map((value, index) =>
+                        <BaseImage
+                            ref={trainRefList[index]}
+                            className={index > 0 ? 'hideObject' : ''}
+                            url={'ani/0' + (index + 1) + '.svg'}
+                            scale={propList[0].s}
+                            style={propList[0].style ? propList[0].style : null}
+                            posInfo={{ l: propList[0].l, t: propList[0].t }}
+                        />
+                    )
+                }
+                {
+                    currentLetterNum == 1 &&
+                    <div
+                        ref={birdRef}
+                        style={{
+                            position: 'fixed',
+                            width: _baseGeo.width * 0.15,
+                            left: _baseGeo.left + _baseGeo.width * 1,
+                            top: _baseGeo.bottom + _baseGeo.height * 0.55,
+                            pointerEvents: 'none',
+                        }}
+                    >
+                        <Lottie
+                            options={returnOption(4)}
+                            mouseDown={false}
+                            isClickToPauseDisabled={true}
+                            autoplay
+                            loop
+                        />
+                    </div>
+                }
+
+                {
+                    currentLetterNum > 1 &&
+                    <BaseImage
+                        url={'SB_03_NT_FG/' + propList[currentLetterNum].path + '.svg'}
+                        scale={propList[currentLetterNum].s}
+                        style={propList[currentLetterNum].style ? propList[currentLetterNum].style : null}
+                        posInfo={{ l: propList[currentLetterNum].l, t: propList[currentLetterNum].t }}
+                    />
+                }
+
+
+                {/* character List */}
+
+                <div
+                    className="movingTopDown"
+                    style={{
+                        position: 'fixed',
+                        width: _geo.width * 0.3,
+                        height: _geo.width * 0.3,
+                        left: _geo.left + _geo.width * (0.0 + ballenInfoList[currentLetterNum].x),
+                        top: _geo.top + _geo.height * (-0.2 + ballenInfoList[currentLetterNum].y),
+                        pointerEvents: 'none',
+                    }}
                 >
-                    {
-                        [0, 1, 2, 3].map((value, index) =>
-                            <div
-                                className={value === aniNum ? 'showObject' : 'hideObject'}
-                                style={{
-                                    position: 'absolute',
-                                    width: characterPosList[index].s * 100 + '%',
-                                    left: characterPosList[index].l * 100 + '%',
-                                    top: characterPosList[index].t * 100 + '%',
-                                    transform: 'rotateY(' + (ballenInfoList[currentLetterNum].r ? '180deg)' : '0deg)'),
-                                    pointerEvents: 'none',
-                                }}
-                            >
-                                <Lottie
-                                    options={returnOption(value)}
-                                    mouseDown={false}
-                                    isClickToPauseDisabled={true}
-                                    playSegments={value == 0 ? playerSegment : {
-                                        segments: [0, 300],
-                                        forceFlag: false
+                    <div
+                        ref={characterRef}
+
+                        style={{ position: 'absolute', width: '100%', height: '100%', left: '0%', top: '0%' }}
+                    >
+                        {
+                            [0, 1, 2, 3].map((value, index) =>
+                                <div
+                                    className={value === aniNum ? 'showObject' : 'hideObject'}
+                                    style={{
+                                        position: 'absolute',
+                                        width: characterPosList[index].s * 100 + '%',
+                                        left: characterPosList[index].l * 100 + '%',
+                                        top: characterPosList[index].t * 100 + '%',
+                                        transform: 'rotateY(' + (ballenInfoList[currentLetterNum].r ? '180deg)' : '0deg)'),
+                                        pointerEvents: 'none',
                                     }}
-                                    isStopped={isAniStop}
-                                />
-                            </div>
-                        )}
+                                >
+                                    <Lottie
+                                        options={returnOption(value)}
+                                        mouseDown={false}
+                                        isClickToPauseDisabled={true}
+                                        playSegments={value == 0 ? playerSegment : {
+                                            segments: [0, 300],
+                                            forceFlag: false
+                                        }}
+                                        isStopped={isAniStop}
+                                    />
+                                </div>
+                            )}
+                    </div>
                 </div>
             </div>
-
+            <div
+                className="aniObject"
+                onClick={() => {
+                    setTimeout(() => {
+                        nextFunc();
+                    }, 200);
+                }}
+                style={{
+                    position: "fixed", width: _geo.width * 0.055 + "px",
+                    height: _geo.width * 0.055 + "px",
+                    right: "2%"
+                    , bottom: "5%", cursor: "pointer",
+                }}>
+                <img
+                    draggable={false}
+                    width={"100%"}
+                    src={prePathUrl() + 'images/Buttons/Skip_blue.svg'}
+                />
+            </div>
 
         </div>
     );
