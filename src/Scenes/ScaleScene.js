@@ -119,7 +119,6 @@ const movePosList = [
     { fx: -170, at: 4, gt: 2.5, gx: 50 },
 ]
 
-
 let timerList = []
 
 export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList, _geo
@@ -179,6 +178,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
         audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum])
 
+        
         moveFunc(movePosList[currentLetterNum].at, 0)
         timerList[2] = setTimeout(() => {
             introFunc()

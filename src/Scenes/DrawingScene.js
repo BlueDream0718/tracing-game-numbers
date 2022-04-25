@@ -578,10 +578,12 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                             if (currentLetterNum < 10)
                                                 showingImg.current.style.transform = 'scale(1.1)'
                                             else {
-                                                countFlowerRef.current.setStyle({
-                                                    transition: '0.5s',
-                                                    transform: 'scale(1.1)',
-                                                })
+                                                setTimeout(() => {
+                                                    countFlowerRef.current.setStyle({
+                                                        transition: '0.5s',
+                                                        transform: 'scale(1.1)',
+                                                    })
+                                                }, 1500);
                                             }
 
                                             setTimeout(() => {
@@ -604,7 +606,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                     else
                                                         countFlowerRef.current.setStyle({
                                                             transition: '0.5s',
-                                                            transform: 'scale(1.1)',
+                                                            transform: 'scale(1)',
                                                         })
                                                     if (repeatStep < 2 && currentLetterNum < 10) {
 
@@ -935,7 +937,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                         {}
                         :
                         {
-                            transform: 'translateX(-30%)',
+                            transform: 'translateX(' + _geo.width * -0.25 + 'px)',
                             width: _geo.width,
                             left: _geo.left,
                             top: _geo.top,
