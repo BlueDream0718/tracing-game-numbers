@@ -8,7 +8,7 @@ export default function Scene1({ nextFunc, _geo, _baseGeo }) {
 
     return (
         <div className='aniObject'>
-            <div
+            {/* <div
                 style={{
                     position: "fixed", width: _baseGeo.width * 1,
                     left: _baseGeo.width * 0 + _baseGeo.left
@@ -81,7 +81,7 @@ export default function Scene1({ nextFunc, _geo, _baseGeo }) {
                 <img draggable={false} width={"100%"}
                     src={prePathUrl() + "images/intro/SB03_Intro_Page_Prop_02.svg"}
                 />
-            </div>
+            </div> */}
 
 
 

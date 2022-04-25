@@ -24,7 +24,7 @@ const maskInfoList = [
     { size: '85% 85%', position: '55% 60%' }, //20
 ]
 const iconPathList = [
-    ['SB01_Alligator_Icon', 'SB03_Flag_Icon', 'SB03_Wiestle_Icon'],
+    ['SB03_Train_Icon', 'SB03_Flag_Icon', 'SB03_Wiestle_Icon'],
     ['SB03_Bird_Icon', 'SB03_Fether_Icon', 'SB03_Tree_Icon'],
     ['SB03_Hotair_Balloon_Icon', 'SB03_Cloud_Icon', 'SB03_Aeroplane_Icon'],
     ['SB03_Boat_Icon', 'SB03_Shell_Icon', 'SB03_Fish_Icon'],
@@ -40,7 +40,7 @@ const iconPathList = [
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
-    ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Coconut_Icon'],
+    ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],
     ['SB03_Flower_Icon', 'SB03_Flower_Icon', 'SB03_Flower_Icon'],

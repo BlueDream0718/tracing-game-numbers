@@ -24,7 +24,7 @@ var backgroundImageIndex = 0;
 var currentLetterNum = 0;
 
 var backgroundImageList = [
-  "SB03_BG_01_Sky", //1
+  "intro", //1
   "SB03_Leter_Tracing_BG", //1
   "SB03_Leter_Tracing_BG", //1
   "SB_03_BG_01_SL_07"

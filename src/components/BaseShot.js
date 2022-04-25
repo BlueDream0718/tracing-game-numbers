@@ -11,7 +11,9 @@ import { setLoop, initialAudio } from "./CommonFunctions";
 import { prePathUrl } from "./CommonFunctions";
 import { audioPrifix } from "./CommonVariants"
 
-
+const letterAudioList = [
+    '05', '09'
+]
 
 var oldBackgroundImage = 'SB_04_intro_BG_01';
 
@@ -19,7 +21,7 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = 0.15;
 
-let currentSceneNumber = 3;
+let currentSceneNumber = 0;
 
 let bodyAudio1 = loadSound(audioPrifix + '01')
 let bodyAudio2 = loadSound(audioPrifix + '02')
@@ -29,7 +31,7 @@ let wordAudio1 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (c
 let wordAudio2 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_2' : '1_2'))
 let wordAudio3 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_3' : '1_3'))
 
-
+// let letterAudio = loadSound(audioPrifix + '03')
 
 let audioYeah = loadSound('yeah', true)
 let audioWoo = loadSound('woo', true)
@@ -345,7 +347,7 @@ export default function BaseShot() {
             }} >
                 <img draggable={false} height={"100%"}
                     ref={myImage}
-                    src={prePathUrl() + "images/SB_03_NT_BG/SB03_BG_01_Sky.svg"}
+                    src={prePathUrl() + "images/SB_03_NT_BG/intro.svg"}
                 />
             </div>
             <div style={{
@@ -359,7 +361,7 @@ export default function BaseShot() {
                 <img draggable={false} height={"100%"}
                     onLoad={backgroundLoaded}
                     ref={myImage1}
-                    src={prePathUrl() + "images/SB_03_NT_BG/SB03_BG_01_Sky.svg"}
+                    src={prePathUrl() + "images/SB_03_NT_BG/intro.svg"}
                 />
             </div>
 
@@ -400,8 +402,8 @@ export default function BaseShot() {
                 style={{
                     position: "fixed", width: geometry.width * 0.1 + "px",
                     height: geometry.width * 0.1 + "px",
-                    right: geometry.width * 0.45 + geometry.left + "px"
-                    , top: geometry.height * 0.65 + geometry.top + "px"
+                    right: geometry.width * 0.12 + geometry.left + "px"
+                    , top: geometry.height * 0.7 + geometry.top + "px"
                     , cursor: "pointer",
                     userSelect: 'none',
                 }}>
