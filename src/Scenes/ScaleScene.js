@@ -12,8 +12,8 @@ import { returnAudioPath } from "../utils/loadSound";
 const transformlist = [
     { x: -40, y: 20, s: 1.8 },
     { x: -40, y: 0, s: 1.8 },
-    { x: -50, y: 15, s: 2 },
-    { x: -30, y: -20, s: 1.6 },
+    { x: -40, y: 15, s: 2 },
+    { x: -40, y: -30, s: 2 },
     { x: 35, y: -30, s: 1.8 },
     { x: 0, y: -50, s: 2 },
     { x: -30, y: -50, s: 2 },
@@ -131,7 +131,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
 
     const [playerSegment, setPlaySegment] = useState(
         {
-            segments: [0, 77],
+            segments: [10, 70],
             forceFlag: true
         }
     )
@@ -206,7 +206,7 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         audioList.bodyAudio1.play();
         timerList[3] = setTimeout(() => {
             setPlaySegment({
-                segments: [80, 125],
+                segments: [85, 125],
                 forceFlag: true
             })
             audioList.bodyAudio2.play()
@@ -408,8 +408,9 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
                                         options={returnOption(value)}
                                         mouseDown={false}
                                         isClickToPauseDisabled={true}
+
                                         playSegments={value == 0 ? playerSegment : {
-                                            segments: [0, 300],
+                                            segments: [30, 300],
                                             forceFlag: false
                                         }}
                                         isStopped={isAniStop}
