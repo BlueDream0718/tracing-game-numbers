@@ -49,7 +49,7 @@ let wordAudio1 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (c
 let wordAudio2 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_2' : '1_2'))
 let wordAudio3 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_3' : '1_3'))
 
-let letterAudio = loadSound('letter/11.mp3')
+let letterAudio = loadSound('letter/11')
 
 let audioYeah = loadSound('yeah', true)
 let audioWoo = loadSound('woo', true)
