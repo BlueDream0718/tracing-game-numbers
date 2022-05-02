@@ -216,14 +216,29 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
     const playAutoAnimation = () => {
         setTimeout(() => {
-            audioList.bodyAudio1.play();
-            setTimeout(() => {
-                playerRef.current.play();
-                audioList.bodyAudio1.src = returnAudioPath(explainVoices[1])
-            }, audioList.bodyAudio1.duration * 1000 + 500);
+            if (letterNum > 9) {
+                audioList.letterAudio.play()
+                setTimeout(() => {
+                    if (letterNum < 19)
+                        audioList.letterAudio.src = prePathUrl() + "sounds/main/letter/" + (letterNum + 2) + '.mp3'
+                    playAutoTracing()
+                }, audioList.letterAudio.duration * 1000);
+            }
+            else {
+                playAutoTracing()
+            }
+
         }, 2000);
     }
 
+
+    const playAutoTracing = () => {
+        audioList.bodyAudio1.play();
+        setTimeout(() => {
+            playerRef.current.play();
+            audioList.bodyAudio1.src = returnAudioPath(explainVoices[1])
+        }, audioList.bodyAudio1.duration * 1000 + 500);
+    }
 
     const showingDrawingPanel = () => {
         startTransition(1)
