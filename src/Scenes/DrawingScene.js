@@ -549,8 +549,10 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                             markRefList[repeatStep].current.setUrl('SB_04_Progress bar/SB_04_progress bar_03.svg')
 
                                             if (repeatStep < 2) {
-                                                if (letterNum != 19)
+                                                if (letterNum != 19) {
+                                                    audioList.audioTing.currentTime = 0
                                                     audioList.audioTing.play();
+                                                }
                                                 else
                                                     audioList.audioSparkle.play()
                                             }
@@ -734,6 +736,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                             stepCount++
                                             let timeDuration = 0
                                             if (firstPosList[letterNum][stepCount].letter_start) {
+                                                audioList.audioTing.currentTime = 0
                                                 audioList.audioTing.play()
                                                 timeDuration = 750
                                                 if (letterPosList[letterNum].lastPosList &&

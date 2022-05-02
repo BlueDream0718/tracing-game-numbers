@@ -53,7 +53,7 @@ const propList = [
 ]
 
 const audioPathList = [
-    '03', '10', '14', '22B', '27B', '32B,32C,34A', '39B,39C,39A', '42B,42C,44', '49B,49C,49A', '52B,54'
+    '03', '10', '17A', '22B', '27B,29', '32B,32C,34A', '39B,39C,39A', '42B,42C,44', '49B,49C,49A', '52B,54'
 ]
 
 
@@ -190,7 +190,6 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
                 audioList.bodyAudio5.src = returnAudioPath(audioPathList[currentLetterNum].split(',')[2])
                 isDoubleAudio = 2
             }
-
         }
         else {
             audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum])
