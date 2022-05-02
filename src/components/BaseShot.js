@@ -21,7 +21,7 @@ let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
 backAudio.volume = 0.12;
 
-let currentSceneNumber = 4;
+let currentSceneNumber = 5;
 
 let bodyAudio1 = loadSound(audioPrifix + '01')
 let bodyAudio2 = loadSound(audioPrifix + '02')
