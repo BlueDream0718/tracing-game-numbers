@@ -19,13 +19,31 @@ var oldBackgroundImage = 'SB_04_intro_BG_01';
 
 let backAudio = loadSound('bMusic', true)
 backAudio.loop = true;
-backAudio.volume = 0.15;
+backAudio.volume = 0.12;
 
-let currentSceneNumber = 10;
+let currentSceneNumber = 0;
 
 let bodyAudio1 = loadSound(audioPrifix + '01')
 let bodyAudio2 = loadSound(audioPrifix + '02')
 let bodyAudio3 = loadSound(audioPrifix + '03')
+let bodyAudio4 = loadSound(audioPrifix + '03')
+let bodyAudio5 = loadSound(audioPrifix + '03')
+
+
+const wordPathList = [
+    ['03A', '06A', '07A'],
+    ['10A', '11A', '12A'],
+    ['17A', '20A', '21A'],
+    ['24A', '25A', '26A'],
+    ['29A', '30A', '31A'],
+    ['34C', '35A', '36A'],
+    ['39D', '40A', '41A'],
+    ['44A', '45A', '46A'],
+    ['49D', '50A', '51A'],
+    ['54A', '55A', '56A'],
+
+    ['54A', '55A', '56A'],
+]
 
 let wordAudio1 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_1' : (currentSceneNumber + 1)))
 let wordAudio2 = loadSound('word/' + audioPrifix + (currentSceneNumber < 10 ? (currentSceneNumber + 1) + '_2' : '1_2'))
@@ -63,8 +81,8 @@ let audioList = {
     wordAudio1, wordAudio2, wordAudio3,
     audioYeah, audioWoo, audioSuccess,
     audioBuzz, audioClap,
-    audioClick, audioTing, replayAudio,
-    audioPick, audioExcellent, audioSparkle
+    audioClick, audioTing, replayAudio, bodyAudio5,
+    audioPick, audioExcellent, audioSparkle, bodyAudio4
 }
 
 var isOff = false;

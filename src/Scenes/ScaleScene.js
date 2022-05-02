@@ -53,7 +53,7 @@ const propList = [
 ]
 
 const audioPathList = [
-    '03', '10', '14', '22', '27', '32', '39', '42', '49', '52'
+    '03', '10', '14', '22B', '27B', '32B,32C,34A', '39B,39C,39A', '42B,42C,44', '49B,49C,49A', '52B,54'
 ]
 
 
@@ -120,6 +120,7 @@ const movePosList = [
 ]
 
 let timerList = []
+let isDoubleAudio = 0;
 
 export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList, _geo
 }) {
@@ -158,9 +159,14 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
             audioList.bodyAudio1.pause()
             audioList.bodyAudio2.pause()
             audioList.bodyAudio3.pause()
+            audioList.bodyAudio4.pause()
+            audioList.bodyAudio5.pause()
 
+            audioList.bodyAudio1.currentTime = 0
             audioList.bodyAudio3.currentTime = 0
             audioList.bodyAudio2.currentTime = 0
+            audioList.bodyAudio4.currentTime = 0
+            audioList.bodyAudio5.currentTime = 0
 
             timerList.map(timer => clearTimeout(timer))
         }
@@ -176,9 +182,20 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         audioList.bodyAudio1.src = returnAudioPath('01')
         audioList.bodyAudio2.src = returnAudioPath('02')
 
-        audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum])
+        if (audioPathList[currentLetterNum].includes(',')) {
+            audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum].split(',')[0])
+            audioList.bodyAudio4.src = returnAudioPath(audioPathList[currentLetterNum].split(',')[1])
+            isDoubleAudio = 1
+            if (audioPathList[currentLetterNum].split(',').length == 3) {
+                audioList.bodyAudio5.src = returnAudioPath(audioPathList[currentLetterNum].split(',')[2])
+                isDoubleAudio = 2
+            }
 
-        
+        }
+        else {
+            audioList.bodyAudio3.src = returnAudioPath(audioPathList[currentLetterNum])
+        }
+
         moveFunc(movePosList[currentLetterNum].at, 0)
         timerList[2] = setTimeout(() => {
             introFunc()
@@ -238,16 +255,34 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         audioList.bodyAudio3.play();
         waitingTime = 7500
 
-        if (audioList.bodyAudio3.duration * 1000 > waitingTime)
-            waitingTime = audioList.bodyAudio3.duration * 1000
-        timerList[7] = setTimeout(() => {
-            scaleFunc()
-        }, 1000);
+        let sayingTime = audioList.bodyAudio3.duration * 1000
+        if (isDoubleAudio > 0)
+            sayingTime += audioList.bodyAudio4.duration * 1000
+        if (isDoubleAudio > 1)
+            sayingTime += audioList.bodyAudio5.duration * 1000
+
+        if (sayingTime > waitingTime)
+            waitingTime = sayingTime
+
+        scaleFunc()
 
         timerList[8] = setTimeout(() => {
-            setAniStop(true)
+            if (isDoubleAudio > 0) {
+                audioList.bodyAudio4.play()
+                timerList[10] = setTimeout(() => {
+                    if (isDoubleAudio > 1) {
+                        audioList.bodyAudio5.play()
+                        timerList[11] = setTimeout(() => {
+                            setAniStop(true)
+                        }, audioList.bodyAudio5.duration * 1000);
+                    }
+                    else
+                        setAniStop(true)
+                }, audioList.bodyAudio4.duration * 1000);
+            }
+            else
+                setAniStop(true)
         }, audioList.bodyAudio3.duration * 1000);
-
     }
 
     const scaleFunc = () => {
@@ -408,4 +443,3 @@ export default function Scene({ nextFunc, _baseGeo, currentLetterNum, audioList,
         </div>
     );
 }
-

@@ -731,12 +731,10 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                             parentObject.current.style.pointerEvents = 'none'
                                             isTracingStarted = false
 
-
-
-
                                             stepCount++
                                             let timeDuration = 0
                                             if (firstPosList[letterNum][stepCount].letter_start) {
+                                                audioList.audioTing.play()
                                                 timeDuration = 750
                                                 if (letterPosList[letterNum].lastPosList &&
                                                     letterPosList[letterNum].lastPosList.length > highCurrentNum) {
@@ -934,7 +932,13 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                 style={
                     currentLetterNum < 10 ?
-                        {}
+                        {
+                            width: _geo.width,
+                            left: _geo.left,
+                            top: _geo.top,
+                            height: _geo.height,
+                            position: 'fixed'
+                        }
                         :
                         {
                             transform: 'translateX(' + _geo.width * -0.25 + 'px)',
@@ -1045,10 +1049,11 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                 <div ref={drawingPanel}>
                     <div id='DrawingDiv'
                         style={{
-                            position: 'fixed', width: _geo.width,
+                            position: 'absolute',
+                            width: _geo.width,
                             height: _geo.height,
-                            left: _geo.left
-                            , top: _geo.top,
+                            left: 0
+                            , top: 0,
                             WebkitMaskImage: 'url("' + preName + (letterNum < 10 ? 'Grey' : 'Gray') + '.svg")',
                             WebkitMaskPosition: maskInfoList[letterNum].position,
                             WebkitMaskSize: maskInfoList[letterNum].size,
@@ -1073,9 +1078,9 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                     <div
                         ref={subObjectsRef}
                         style={{
-                            position: 'fixed',
+                            position: 'absolute',
                             width: _geo.width, height: _geo.height,
-                            left: _geo.left, top: _geo.top,
+                            left: 0, top: 0,
                             pointerEvents: 'none',
                         }}
                     >
@@ -1133,9 +1138,9 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                     <div id='highlightDiv'
                         style={{
-                            position: 'fixed',
+                            position: 'absolute',
                             width: _geo.width, height: _geo.height,
-                            left: _geo.left, top: _geo.top,
+                            left: 0, top: 0,
                             pointerEvents: 'none',
                         }}
                     >
@@ -1155,10 +1160,10 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                     <div
                         style={{
-                            position: 'fixed', width: _geo.width,
+                            position: 'absolute', width: _geo.width,
                             height: _geo.height,
-                            left: _geo.left
-                            , top: _geo.top,
+                            left: 0
+                            , top: 0,
                             pointerEvents: 'none'
                         }}
                     >
