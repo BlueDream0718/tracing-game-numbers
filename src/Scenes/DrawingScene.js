@@ -62,6 +62,8 @@ let gameObjectList = []
 let lastObjectList = []
 let firstObjectList = []
 
+let scaleInterval, scaleTimer, repeatInterval
+
 export default function Scene({ nextFunc, _geo, currentLetterNum, startTransition, audioList
 }) {
 
@@ -165,6 +167,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
         // showingDrawingPanel()
 
         // goNextLetter()
+        setRepeatAudio(audioList.bodyAudio1)
 
         return () => {
 
@@ -207,6 +210,8 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
             rememberIsLeft = false;
 
             stopRepeatAudio();
+            stopScaleFunc()
+
             graphics.clear()
             subGraphics.clear()
 
@@ -219,8 +224,14 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
             if (letterNum > 9) {
                 audioList.letterAudio.play()
                 setTimeout(() => {
-                    if (letterNum < 19)
-                        audioList.letterAudio.src = prePathUrl() + "sounds/main/letter/" + (letterNum + 2) + '.mp3'
+                    if (letterNum < 19) {
+                        audioList.letterAudio.pause()
+                        setTimeout(() => {
+
+                            audioList.letterAudio.src = prePathUrl() + "sounds/main/letter/" + (letterNum + 2) + '.mp3'
+                        }, 1000);
+                    }
+
                     playAutoTracing()
                 }, audioList.letterAudio.duration * 1000);
             }
@@ -228,12 +239,13 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                 playAutoTracing()
             }
 
-        }, 2000);
+        }, 2500);
     }
 
 
     const playAutoTracing = () => {
         audioList.bodyAudio1.play();
+
         setTimeout(() => {
             playerRef.current.play();
             audioList.bodyAudio1.src = returnAudioPath(explainVoices[1])
@@ -267,10 +279,13 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
         subObjectsRef.current.className = 'appear'
 
-        setRepeatAudio(audioList.bodyAudio1)
+
         timerList[1] = setTimeout(() => {
             audioList.bodyAudio1.play();
-            startRepeatAudio()
+            playScaleFunc()
+
+            startRepeatAudio();
+            startRepeatScaleFunc()
         }, 1000);
 
     }
@@ -299,6 +314,55 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
         })
     }
 
+    function repeatScaleFunc() {
+        repeatInterval = setInterval(() => {
+            playScaleFunc()
+        }, 10000);
+    }
+
+    function playScaleFunc() {
+        clearInterval(scaleInterval)
+
+        let value = 1
+        let isIncrease = true
+        scaleInterval = setInterval(() => {
+
+            if (isIncrease)
+                value += 0.01
+            else
+                value -= 0.01
+
+            if (value >= 1.1)
+                isIncrease = false;
+            if (value <= 1)
+                isIncrease = true
+
+            if (!isFirefox)
+                moveObjList[repeatStep].setScale(0.75 * value)
+            else {
+                iconRef.current.setStyle({ transform: 'scale(' + 0.09 * value + ')' })
+            }
+        }, 50);
+    }
+
+    function startRepeatScaleFunc(delay = 5000) {
+        scaleTimer = setTimeout(() => {
+            repeatScaleFunc()
+        }, delay);
+    }
+
+    function stopScaleFunc() {
+        clearTimeout(scaleTimer)
+        clearInterval(scaleInterval)
+        clearInterval(repeatInterval)
+
+        if (!isFirefox)
+            moveObjList[repeatStep].setScale(0.75)
+        else {
+            iconRef.current.setStyle({ transform: 'scale(' + 0.09 + ')' })
+        }
+
+    }
 
     function create() {
 
@@ -347,6 +411,43 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
         let isMoving = false;
 
+
+        circleObj.on('pointerover', function () {
+
+            setTimeout(() => {
+                if (isTracingStarted && isRepeating()) {
+                    stopRepeatAudio()
+                    stopScaleFunc()
+                }
+            }, 10);
+
+        });
+
+        circleObj.on('pointerout', function () {
+
+            setTimeout(() => {
+                if (isTracingStarted && !isRepeating()) {
+                    startRepeatAudio()
+                    startRepeatScaleFunc()
+                }
+            }, 10);
+
+
+        });
+
+        circleObj.on('pointerup', function () {
+
+            setTimeout(() => {
+                if (isTracingStarted) {
+                    startRepeatAudio();
+                    startRepeatScaleFunc();
+                }
+            }, 10);
+
+
+        });
+
+
         circleObj.on('pointerdown', function (pointer) {
             if (!isMoving) {
                 if (isTracingStarted) {
@@ -364,7 +465,9 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                     audioList.bodyAudio1.pause()
                     audioList.bodyAudio1.currentTime = 0;
                     timerList.map(timer => clearTimeout(timer))
+
                     stopRepeatAudio();
+                    stopScaleFunc()
                 }
             }
         }, this);
@@ -520,6 +623,7 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
 
                                         isMoving = false;
+                                        isTracingStarted = false;
                                         x = currentPath[currentPath.length - 1].x
                                         y = currentPath[currentPath.length - 1].y
 
@@ -527,6 +631,9 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                         // for (let i = 0; i < currentMinDisIndex; i++)
                                         //     curve.addPoint(currentPath[i])
                                         curve.addPoint(x, y);
+
+                                        stopRepeatAudio();
+                                        stopScaleFunc()
 
                                         if (stepCount == movePath[letterNum].length - 1) {
                                             if (isSubExist)
@@ -710,9 +817,14 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                         subCurve = new Phaser.Curves.Spline([currentPath[0].x, currentPath[0].y]);
                                                         subCurves = []
 
+                                                        isTracingStarted = true;
+
                                                         timerList[0] = setTimeout(() => {
                                                             audioList.bodyAudio1.play();
+
+                                                            playScaleFunc()
                                                             startRepeatAudio();
+                                                            startRepeatScaleFunc()
                                                         }, 500);
 
 
@@ -724,7 +836,9 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
                                                             }, 2000);
                                                         else
                                                             goNextLetter();
-                                                        stopRepeatAudio();
+
+
+
                                                     }
 
                                                 }, waitTime + 3000);
@@ -750,9 +864,11 @@ export default function Scene({ nextFunc, _geo, currentLetterNum, startTransitio
 
                                             stepCount++
                                             let timeDuration = 0
+
                                             if (firstPosList[letterNum][stepCount].letter_start) {
                                                 audioList.audioTing.currentTime = 0
                                                 audioList.audioTing.play()
+
                                                 timeDuration = 750
                                                 if (letterPosList[letterNum].lastPosList &&
                                                     letterPosList[letterNum].lastPosList.length > highCurrentNum) {
